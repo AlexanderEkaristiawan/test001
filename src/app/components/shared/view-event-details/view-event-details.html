@@ -1,0 +1,155 @@
+<div class="main-background">
+    <div class="container mb-7 mt-7">
+        <div class="header">
+            <h1>View Event Details</h1>
+            <button class="back-btn" routerLink="/view-events">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </button>
+        </div>
+        <!-- Event overview (poster + key details) -->
+        <div class="page-section">
+            <div class="event-overview">
+                <div class="poster-and-details">
+                    <div class="poster-section">
+                        <h4 class="section-title1">Poster</h4>
+                        <hr class="mt-2" />
+                        <div class="poster-card">
+                            <img [src]="eventPosterUrl || '/assets/card-poster.png'" alt="Event Poster"
+                                class="poster-image" />
+                        </div>
+                    </div>
+
+                    <div class="event-detail-section">
+                        <h4 class="section-title1">Event Details</h4>
+                        <hr class="mt-2" />
+                        <div class="detail-row"><strong>Event name:</strong> {{ eventTitle || event?.title || '—' }}
+                        </div>
+                        <div class="detail-row"><strong>Event date:</strong> {{ eventDate || (event?.date |
+                            date:'shortDate') || '—' }}</div>
+                        <div class="detail-row"><strong>Start time:</strong> {{ startTime || event?.startTime || '—'
+                            }}</div>
+                        <div class="detail-row"><strong>End time:</strong> {{ endTime || event?.endTime || '—' }}
+                        </div>
+                        <div class="detail-row"><strong>Location:</strong> {{ eventLocation || event?.location ||
+                            '—' }}</div>
+                        <div class="detail-row"><strong>Description:</strong>
+                            <div class="description-text">{{ eventDescription || event?.description || 'No
+                                description' }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ticket setup summary -->
+        <div class="page-section">
+            <div class="ticket-setup-summary">
+                <h4 class="section-title1">Seat Type details</h4>
+                <hr class="mt-2" />
+                <div class="ticket-sections">
+                    <ng-container *ngFor="let sectionName of getSeatingSections()">
+                        <div class="ticket-section-card">
+                            <h5>{{ sectionName }}</h5>
+                            <div class="ticket-row"><strong>Type:</strong> {{
+                                customSeating[sectionName]?.name || '—' }}</div>
+                            <div class="ticket-row"><strong>Price:</strong> {{ customSeating[sectionName]?.price
+                                != null ? ('$' + (customSeating[sectionName].price | number:'1.2-2')) : '—' }}
+                            </div>
+                            <div class="ticket-row"><strong>Max per order:</strong> {{
+                                customSeating[sectionName]?.maxPerOrder || '—' }}</div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+
+        <!-- Promotion details summary -->
+        <div class="page-section">
+            <div class="promotion-details">
+                <h4 class="section-title1">Promotion details</h4>
+                <hr class="mt-2" />
+                <div *ngIf="promotions && promotions.length > 0" class="promotions-list">
+                    <div *ngFor="let promo of promotions" class="promo-card">
+                        <div class="promo-header">
+                            <strong>{{ promo.code }}</strong>
+                            <span class="promo-discount">{{ promo.discountType === 'percentage' ?
+                                (promo.discountValue + '%') : ('$' + promo.discountValue) }} off</span>
+                        </div>
+                        <div class="promo-row"><strong>Expired by:</strong> {{ promo.expiryDate | date:'shortDate'
+                            }}</div>
+                        <div class="promo-row"><strong>Max uses per user:</strong> {{ promo.maxUses === 0 ?
+                            'Unlimited' : (promo.maxUses || '—') }}</div>
+                        <div class="promo-row"><strong>Max discount amount:</strong> {{ promo.maxDiscountAmount
+                            ? ('$' + (promo.maxDiscountAmount | number:'1.2-2')) : '—' }}</div>
+                        <div class="promo-row"><strong>Minimum purchase:</strong> {{ promo.minPurchaseAmount ?
+                            ('$' + (promo.minPurchaseAmount | number:'1.2-2')) : '—' }}</div>
+                        <div class="promo-row"><strong>Applicable sections:</strong>
+                            <span *ngIf="promo.applicableTicketTypes && promo.applicableTicketTypes.length > 0">{{
+                                promo.applicableTicketTypes.join(', ') }}</span>
+                            <span *ngIf="!promo.applicableTicketTypes || promo.applicableTicketTypes.length === 0">All
+                                sections</span>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="!promotions || promotions.length === 0">No promotions available.</div>
+            </div>
+        </div>
+
+        <div class="picture">
+            <img src="/assets/auditorium-layout.png" alt="Seating Chart" class="image" />
+        </div>
+
+        <div class="page-section">
+            <div class="theater-section">
+                <h4 class="section-title1">Auditorium Seat Update</h4>
+                <hr class="mt-2" />
+                <h3 class="section-toggle-title">Section Toggle</h3>
+                <div class="section-nav">
+                    <button *ngFor="let section of sections; let i = index" (click)="changeSection(i)"
+                        [class.active]="i === currentSectionIndex">
+                        {{ section.name }}
+                    </button>
+                </div>
+
+                <div class="seating-container">
+                    <div *ngFor="let section of sections; let i = index">
+                        <div class="seating-area" *ngIf="i === currentSectionIndex">
+                            <div class="area-label">
+                                {{ section.name + " (" + (section.seatRows[0][0].seatType || '') + ")" }}
+                                <span class="section-limit" *ngIf="getSectionMaxLimit(section.name)">
+                                    (Max {{ getSectionMaxLimit(section.name) }} per order)
+                                </span>
+                            </div>
+                            <div class="seating-row" *ngFor="let row of section.seatRows">
+                                <div class="row-indicator">{{ $any(row).rowLetter }}</div>
+                                <div class="seat" [ngClass]="{
+                  selected: seat.selected,
+                  occupied: seat.occupied,
+                  'limit-exceeded': isSeatSelectionExceedingLimit(seat)
+                }" (click)="selectSeat(seat)" *ngFor="let seat of row" [title]="getSeatTooltip(seat)">
+                                    {{ seat.number.split('-')[1] }}
+                                </div>
+                                <div class="row-indicator">{{ $any(row).rowLetter }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color available-color"></div>
+                        <span>Available</span>
+                    </div>
+
+                    <div class="legend-item">
+                        <div class="legend-color occupied-color"></div>
+                        <span>Occupied</span>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="spacer"></div>
+</div>

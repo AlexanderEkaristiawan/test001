@@ -1,0 +1,48 @@
+* {
+  font-family: monsterrat, sans-serif;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.8); /* Make card semi-transparent */
+  margin-top: 40px;
+  padding: 24px;
+  border-radius: 5%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-color: none;
+}
+
+.text-center {
+  text-align: center;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #b11515;
+  color: white;
+  border: none;
+}
+
+.register-link {
+  color: #b11515; /* Bootstrap blue */
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none; /* remove underline */
+}
+
+.register-link:hover {
+  text-decoration: underline; /* hover underline */
+  color: #ff0000; /* darker blue on hover */
+}
+
+.main-background {
+  background-image: url('../../../assets/clean-bg.png'); /* Adjust path as needed */
+  background-size: cover; /* Covers the entire element */
+  background-position: center top; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents repetition */
+  height: 100vh; 
+  
+}
+
+.btn-primary:active {
+  background-color: #db0101;
+}

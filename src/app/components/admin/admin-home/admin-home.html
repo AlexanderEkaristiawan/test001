@@ -1,0 +1,164 @@
+<div class="container mt-7 mb-7">
+  <div class="main-background">
+    <div *ngIf="loading" class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading dashboard...</p>
+    </div>
+
+    <div *ngIf="!loading" class="main-content" id="dashboard-page">
+      <div class="header">
+        <h1 class="dashboard-title">Admin Dashboard</h1>
+      </div>
+
+      <div class="time-filter">
+        <div class="time-options">
+          <div
+            class="time-option"
+            [ngClass]="{ active: selectedPeriod === '7d' }"
+            (click)="setPeriod('7d')"
+          >
+            Last 7 Days
+          </div>
+          <div
+            class="time-option"
+            [ngClass]="{ active: selectedPeriod === '30d' }"
+            (click)="setPeriod('30d')"
+          >
+            Last 30 Days
+          </div>
+          <div
+            class="time-option"
+            [ngClass]="{ active: selectedPeriod === '90d' }"
+            (click)="setPeriod('90d')"
+          >
+            Last 3 Months
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Cards -->
+      <div class="dashboard-cards" *ngIf="dashboardStats">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Total Events</div>
+            <div class="card-icon red">
+              <i class="fas fa-calendar-days"></i>
+            </div>
+          </div>
+          <div class="card-value">{{ dashboardStats.totalEvents | number }}</div>
+          <div class="card-footer" id="events-change">+5 from last period</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Active Organizers</div>
+            <div class="card-icon red">
+              <i class="fas fa-users"></i>
+            </div>
+          </div>
+          <div class="card-value">{{ dashboardStats.activeOrganizers | number }}</div>
+          <div class="card-footer" id="events-change">+3 from last period</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Tickets Sold</div>
+            <div class="card-icon red">
+              <i class="fas fa-ticket"></i>
+            </div>
+          </div>
+          <div class="card-value">{{ dashboardStats.ticketsSold | number }}</div>
+          <div class="card-footer" id="organizers-change">+124 from last period</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Revenue</div>
+            <div class="card-icon red">
+              <i class="fas fa-dollar-sign"></i>
+            </div>
+          </div>
+          <div class="card-value">
+            {{ dashboardStats.revenue | currency : 'USD' : 'symbol' : '1.0-0' }}
+          </div>
+          <div class="card-footer" id="tickets-change">+12% from last period</div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="chart-header">
+        <div class="chart-title">Quick Actions</div>
+      </div>
+      <div class="quick-actions">
+        <a routerLink="/admin/organizers" routerLinkActive="active" class="action-btn">
+          <div class="action-icon">
+            <i class="fas fa-user-plus"></i>
+          </div>
+          <div class="action-text">Manage Organizer</div>
+        </a>
+
+        <a routerLink="/view-events" routerLinkActive="active" class="action-btn">
+          <div class="action-icon">
+            <i class="fas fa-calendar-plus"></i>
+          </div>
+          <div class="action-text">View Events</div>
+        </a>
+
+        <a routerLink="/admin/reports" routerLinkActive="active" class="action-btn">
+          <div class="action-icon">
+            <i class="fas fa-chart-bar"></i>
+          </div>
+          <div class="action-text">View Reports</div>
+        </a>
+
+        <div class="action-btn" routerLink="/scan-qr">
+          <div class="action-icon"><i class="fa-solid fa-qrcode"></i></div>
+          <div class="action-text">Scan Qr</div>
+        </div>
+      </div>
+
+      <!-- Charts Section -->
+      <div class="charts">
+        <div class="chart-container">
+          <div class="chart-header">
+            <div class="chart-title">Ticket Sales Overview</div>
+          </div>
+          <div class="chart-placeholder">
+            <canvas id="salesOverviewChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <div class="chart-header">
+            <div class="chart-title">Seat Occupancy Rates</div>
+          </div>
+          <div class="chart-placeholder">
+            <canvas id="occupancyRatesChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Best Performing Event -->
+      <div class="best-performing-events" *ngIf="bestPerformingEvents">
+        <div class="chart-header">
+          <div class="chart-title">Best Performing Event</div>
+        </div>
+        <div class="event-list">
+          <div class="event-list-item">
+            <div class="event-date">
+              <div class="event-day">22</div>
+              <div class="event-month">Oct</div>
+            </div>
+
+            <div class="event-content">
+              <div class="event-name">{{ bestPerformingEvents.eventName }}</div>
+              <div class="event-organizer">
+                Tickets Sold: {{ bestPerformingEvents.ticketsSold | number }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

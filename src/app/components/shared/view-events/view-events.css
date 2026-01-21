@@ -1,0 +1,82 @@
+.main-background {
+  background-image: url('../../../assets/clean-bg.png'); 
+  background-size: cover; 
+  background-position: center top; 
+  background-repeat: no-repeat; 
+  background-attachment: fixed; 
+  min-height: 100vh; 
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.back-btn {
+  background: #9c0000;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.form-control {
+  width: 500px;
+}
+
+.form-select {
+  width: 250px;
+}
+
+.back-btn:hover {
+  background: #c94545;
+}
+
+.btn-primary:active {
+  background-color: #db0101;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.8); /* Make card semi-transparent */
+
+  border-radius: 5%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-color: none;
+}
+
+.page-title{
+  font-weight: bold;
+}
+
+.text-center {
+  text-align: center;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #b11515;
+  color: white;
+  border: none;
+  
+}
+
+.main-container{
+  padding-bottom: 100px;
+}
+
+.btn-primary:active {
+  background-color: #db0101;
+}
+
+.spacer1{
+  margin-top: 20px;
+}

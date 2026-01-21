@@ -1,0 +1,234 @@
+<div class="main-background">
+  <div class="my-events-container">
+    <h2>My Events Dashboard</h2>
+
+    <div class="view-switcher">
+      <button [class.active]="activeView === 'upcoming'" (click)="setView('upcoming')">
+        Upcoming Events
+      </button>
+
+      <button [class.active]="activeView === 'history'" (click)="setView('history')">
+        Booking History
+      </button>
+
+      <button [class.active]="activeView === 'waitlist'" (click)="setView('waitlist')">
+        My Waitlists
+      </button>
+    </div>
+
+    <div *ngIf="loading; else content" class="loading-container">
+      <p class="empty-state">Loading your events...</p>
+    </div>
+
+    <ng-template #content>
+      <div [ngSwitch]="activeView" class="content-area">
+        <!-- Upcoming Bookings View -->
+        <div *ngSwitchCase="'upcoming'">
+          <ng-container *ngIf="upcomingBookings$ | async as bookings">
+            <div *ngIf="bookings.length > 0; else noUpcomingBookings" class="bookings-list">
+              <div *ngFor="let booking of bookings" class="booking-card">
+                <h3>
+                  {{ booking.event?.title || booking.eventName || 'Event details not found' }}
+                </h3>
+
+                <!-- Event Status -->
+                <p>
+                  <strong>Status:</strong>
+                  <span class="status-{{ booking.event?.status || 'unknown' }}">
+                    {{ booking.event?.status || 'Unknown' }}
+                  </span>
+                </p>
+
+                <!-- Event Date - FIXED: Use safe navigation operator in template -->
+                <p>
+                  <strong>Date:</strong>
+                  <ng-container *ngIf="booking.event?.date; else noDate">
+                  {{ booking.event?.date | date: 'fullDate' }} 
+                  <span *ngIf="booking.event?.startTime">at {{ booking.event?.startTime }}</span>
+                </ng-container>
+                  <ng-template #noDate>Date not available</ng-template>
+                </p>
+
+                <!-- Seats -->
+                <p>
+                  <strong>Seats:</strong>
+                  <ng-container *ngIf="booking.seats && booking.seats.length > 0; else noSeats">
+                    <span *ngFor="let seat of booking.seats; let last = last">
+                      {{ getSeatDisplayText($any(seat)) }}{{ !last ? ', ' : '' }}
+                    </span>
+                  </ng-container>
+                  <ng-template #noSeats>No seats selected</ng-template>
+                </p>
+
+                <!-- Price -->
+                <p>
+                  <strong>Final Price:</strong>
+                  {{ booking.finalPrice | currency : 'USD' : 'symbol' : '1.2-2' }}
+                </p>
+
+                <!-- Booking Status -->
+                <p>
+                  <strong>Booking Status:</strong>
+                  <span class="booking-status-{{ booking.status }}">{{ booking.status }}</span>
+                </p>
+
+                <!-- Cancel Button -->
+                <button
+                  *ngIf="canCancelBooking(booking)"
+                  class="btn btn-danger mt-2"
+                  (click)="cancelBooking(booking)"
+                >
+                  Cancel Booking
+                </button>
+                <button class="btn btn-primary mt-2" (click)="showQr(booking)">
+                  Show QR Code
+                </button>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #noUpcomingBookings>
+            <p class="empty-state">You have no upcoming booked events.</p>
+          </ng-template>
+        </div>
+
+        <!-- Past Bookings View -->
+        <div *ngSwitchCase="'history'">
+          <ng-container *ngIf="pastBookings$ | async as bookings">
+            <div *ngIf="bookings.length > 0; else noPastBookings" class="bookings-list">
+              <div *ngFor="let booking of bookings" class="booking-card history">
+                <h3>
+                  {{ booking.event?.title || booking.eventName || 'Event details not found' }}
+                </h3>
+
+                <!-- Event Status -->
+                <p>
+                  <strong>Event Status:</strong>
+                  <span class="status-{{ booking.event?.status || 'unknown' }}">
+                    {{ booking.event?.status || 'Unknown' }}
+                  </span>
+                </p>
+
+                <!-- Event Date - FIXED: Use ng-container with conditional -->
+                <p>
+                  <strong>Date:</strong>
+                  <ng-container *ngIf="booking.event?.date; else noDateHistory">
+                  {{ booking.event?.date | date: 'fullDate' }}
+                </ng-container>
+                  <ng-template #noDateHistory>Date not available</ng-template>
+                </p>
+
+                <!-- Booking Status -->
+                <p>
+                  <strong>Booking Status:</strong>
+                  <span class="booking-status-{{ booking.status }}">{{ booking.status }}</span>
+                </p>
+
+                <!-- Seats Count -->
+                <p>
+                  <strong>Seats Booked:</strong>
+                  <ng-container
+                    *ngIf="booking.seats && booking.seats.length > 0; else noSeatsCount"
+                  >
+                    {{ booking.seats.length }}
+                  </ng-container>
+                  <ng-template #noSeatsCount>0</ng-template>
+                </p>
+
+                <!-- Price -->
+                <p>
+                  <strong>Total Paid:</strong>
+                  {{ booking.finalPrice | currency : 'USD' : 'symbol' : '1.2-2' }}
+                </p>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #noPastBookings>
+            <p class="empty-state">You have no past events in your history.</p>
+          </ng-template>
+        </div>
+
+        <!-- Waitlist View -->
+        <div *ngSwitchCase="'waitlist'">
+          <ng-container *ngIf="userWaitlists$ | async as waitlists">
+            <div *ngIf="waitlists.length > 0; else noWaitlists" class="bookings-list">
+              <div *ngFor="let item of waitlists" class="booking-card waitlist">
+                <h3>{{ item.event?.title || 'Event details not found' }}</h3>
+
+                <!-- Event Status -->
+                <p>
+                  <strong>Event Status:</strong>
+                  <span class="status-{{ item.event?.status || 'unknown' }}">
+                    {{ item.event?.status || 'Unknown' }}
+                  </span>
+                </p>
+
+                <!-- Position -->
+                <p>
+                  <strong>Your Position:</strong>
+                  <ng-container
+                    *ngIf="item.position !== undefined && item.position !== null; else noPosition"
+                  >
+                    #{{ item.position }}
+                  </ng-container>
+                  <ng-template #noPosition>Not available</ng-template>
+                </p>
+
+                <!-- Joined Date -->
+                <p>
+                  <strong>Date Joined:</strong>
+                  <ng-container *ngIf="item.joinedAt; else noJoinedDate">
+                    {{ item.joinedAt | date : 'medium' }}
+                  </ng-container>
+                  <ng-template #noJoinedDate>Date not available</ng-template>
+                </p>
+
+                <!-- Exit Button -->
+                <button
+                  class="exit-waitlist-btn"
+                  (click)="exitWaitlist(getWaitlistId(item))"
+                  *ngIf="getWaitlistId(item)"
+                >
+                  Exit Waitlist
+                </button>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #noWaitlists>
+            <p class="empty-state">You are not on any waitlists.</p>
+          </ng-template>
+        </div>
+      </div>
+      <!-- QR Modal -->
+      <div class="modal-overlay" *ngIf="showModal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>{{ selectedBooking?.event?.title || selectedBooking?.eventName }}</h3>
+            <button class="modal-close" (click)="closeModal()">×</button>
+          </div>
+          <div class="modal-body">
+            <div class="modal-left">
+              <div class="modal-poster" *ngIf="selectedBooking?.event?.posterURL">
+                <img [src]="selectedBooking?.event?.posterURL" [alt]="selectedBooking?.event?.title + ' Poster'">
+              </div>
+              <p><strong>Booking ID:</strong> {{ selectedBooking?.id }}</p>
+              <p><strong>Date:</strong> {{ selectedBooking?.event?.date | date:'fullDate' }} <span *ngIf="selectedBooking?.event?.startTime">at {{ selectedBooking?.event?.startTime }}</span></p>
+              <p><strong>Seats:</strong>
+                <ng-container *ngIf="(selectedBooking?.seats?.length || 0) > 0">
+                  <span *ngFor="let seat of $any(selectedBooking?.seats); let last = last">{{ getSeatDisplayText($any(seat)) }}{{ !last ? ', ' : '' }}</span>
+                </ng-container>
+              </p>
+              <p><strong>Final Price:</strong> {{ selectedBooking?.finalPrice | currency:'USD':'symbol':'1.2-2' }}</p>
+              <p><strong>Status:</strong> <span class="booking-status-display" [ngClass]="'booking-status-' + selectedBooking?.status?.toLowerCase()">{{ selectedBooking?.status }}</span></p>
+            </div>
+            <div class="modal-right">
+              <div class="qr-wrapper">
+                <img [src]="getQrCodeUrl(selectedBooking)" alt="QR Code" />
+                <p class="qr-caption">Scan this QR at the event</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

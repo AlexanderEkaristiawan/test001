@@ -1,0 +1,575 @@
+<!-- Create Event Page -->
+
+<div class="main-background">
+  <div class="container mb-7 mt-7">
+    <div class="page-section">
+      <div class="header">
+        <h1>Create New Event</h1>
+        <button class="back-btn" routerLink="/organizer">
+          <i class="fas fa-arrow-left"></i> Back to Home
+        </button>
+      </div>
+
+      <hr class="my-4" />
+
+      <div class="form-container">
+        <form (ngSubmit)="onEventSubmit()">
+          <h4 class="section-title1">Event Details</h4>
+          <hr class="mt-4" />
+
+          <div class="form-group">
+            <label for="event-name">Event Name *</label>
+            <input
+              type="text"
+              id="event-name"
+              placeholder="Enter event name"
+              [(ngModel)]="eventTitle"
+              name="eventTitle"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="event-date">Event Date *</label>
+            <input type="date" id="event-date" [(ngModel)]="eventDate" name="eventDate" required />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="event-time">Start Time *</label>
+              <input
+                type="time"
+                id="start-time"
+                [(ngModel)]="startTime"
+                name="startTime"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="event-time">End Time *</label>
+              <input type="time" id="end-time" [(ngModel)]="endTime" name="endTime" required />
+            </div>
+          </div>
+
+          
+
+          <div class="form-group">
+            <label for="event-location">Event Location *</label>
+            <input
+              type="text"
+              id="event-location"
+              placeholder="Enter event location"
+              [(ngModel)]="eventLocation"
+              name="eventLocation"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="event-description">Event Description</label>
+            <textarea
+              id="event-description"
+              placeholder="Describe your event..."
+              [(ngModel)]="eventDescription"
+              name="eventDescription"
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="event-poster">Event Poster (optional)</label>
+            <input type="file" id="event-poster" name="poster" accept="image/*" (change)="onPosterSelected($event)" />
+            <small>If you upload a poster, it will be used on event cards. Otherwise a default poster will be shown.</small>
+          </div>
+
+          
+
+          <h4 class="section-title">Auditorium Sections Configuration</h4>
+          <hr class="mt-4" />
+
+          <div class="picture">
+            <img src="/assets/auditorium-layout.png" alt="Seating Chart" class="image" />
+          </div>
+
+          <!-- Section configuration with ticket type name, price, and max per order -->
+          <div class="section-configuration">
+            <div class="section-group">
+              <h5>Left Foyer Configuration</h5>
+              <div class="form-row3">
+                <div class="form-group">
+                  <label for="left-foyer-name">Ticket Type Name *</label>
+                  <input
+                    type="text"
+                    id="left-foyer-name"
+                    placeholder="e.g., Premium Gold"
+                    [(ngModel)]="customSeating['Left Foyer'].name"
+                    name="leftFoyerName"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="left-foyer-price">Price (USD) *</label>
+                  <input
+                    type="number"
+                    id="left-foyer-price"
+                    placeholder="Enter price"
+                    [(ngModel)]="customSeating['Left Foyer'].price"
+                    name="leftFoyerPrice"
+                    required
+                    min="0"
+                    step="0.01"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="left-foyer-max">Max Tickets Per Order</label>
+                  <input
+                    type="number"
+                    id="left-foyer-max"
+                    [(ngModel)]="customSeating['Left Foyer'].maxPerOrder"
+                    name="leftFoyerMax"
+                    min="1"
+                    max="50"
+                    value="10"
+                  />
+                  <small>Maximum 1-50</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-group">
+              <h5>Middle Foyer Configuration</h5>
+              <div class="form-row3">
+                <div class="form-group">
+                  <label for="middle-foyer-name">Ticket Type Name *</label>
+                  <input
+                    type="text"
+                    id="middle-foyer-name"
+                    placeholder="e.g., VIP Executive"
+                    [(ngModel)]="customSeating['Middle Foyer'].name"
+                    name="middleFoyerName"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="middle-foyer-price">Price (USD) *</label>
+                  <input
+                    type="number"
+                    id="middle-foyer-price"
+                    placeholder="Enter price"
+                    [(ngModel)]="customSeating['Middle Foyer'].price"
+                    name="middleFoyerPrice"
+                    required
+                    min="0"
+                    step="0.01"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="middle-foyer-max">Max Tickets Per Order</label>
+                  <input
+                    type="number"
+                    id="middle-foyer-max"
+                    [(ngModel)]="customSeating['Middle Foyer'].maxPerOrder"
+                    name="middleFoyerMax"
+                    min="1"
+                    max="50"
+                    value="10"
+                  />
+                  <small>Maximum 1-50</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-group">
+              <h5>Right Foyer Configuration</h5>
+              <div class="form-row3">
+                <div class="form-group">
+                  <label for="right-foyer-name">Ticket Type Name *</label>
+                  <input
+                    type="text"
+                    id="right-foyer-name"
+                    placeholder="e.g., Standard Plus"
+                    [(ngModel)]="customSeating['Right Foyer'].name"
+                    name="rightFoyerName"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="right-foyer-price">Price (USD) *</label>
+                  <input
+                    type="number"
+                    id="right-foyer-price"
+                    placeholder="Enter price"
+                    [(ngModel)]="customSeating['Right Foyer'].price"
+                    name="rightFoyerPrice"
+                    required
+                    min="0"
+                    step="0.01"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="right-foyer-max">Max Tickets Per Order</label>
+                  <input
+                    type="number"
+                    id="right-foyer-max"
+                    [(ngModel)]="customSeating['Right Foyer'].maxPerOrder"
+                    name="rightFoyerMax"
+                    min="1"
+                    max="50"
+                    value="10"
+                  />
+                  <small>Maximum 1-50</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-group">
+              <h5>Left Balcony Configuration</h5>
+              <div class="form-row3">
+                <div class="form-group">
+                  <label for="left-balcony-name">Ticket Type Name *</label>
+                  <input
+                    type="text"
+                    id="left-balcony-name"
+                    placeholder="e.g., Student Special"
+                    [(ngModel)]="customSeating['Left Balcony'].name"
+                    name="leftBalconyName"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="left-balcony-price">Price (USD) *</label>
+                  <input
+                    type="number"
+                    id="left-balcony-price"
+                    placeholder="Enter price"
+                    [(ngModel)]="customSeating['Left Balcony'].price"
+                    name="leftBalconyPrice"
+                    required
+                    min="0"
+                    step="0.01"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="left-balcony-max">Max Tickets Per Order</label>
+                  <input
+                    type="number"
+                    id="left-balcony-max"
+                    [(ngModel)]="customSeating['Left Balcony'].maxPerOrder"
+                    name="leftBalconyMax"
+                    min="1"
+                    max="50"
+                    value="10"
+                  />
+                  <small>Maximum 1-50</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-group">
+              <h5>Middle Balcony Configuration</h5>
+              <div class="form-row3">
+                <div class="form-group">
+                  <label for="middle-balcony-name">Ticket Type Name *</label>
+                  <input
+                    type="text"
+                    id="middle-balcony-name"
+                    placeholder="e.g., Family Package"
+                    [(ngModel)]="customSeating['Middle Balcony'].name"
+                    name="middleBalconyName"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="middle-balcony-price">Price (USD) *</label>
+                  <input
+                    type="number"
+                    id="middle-balcony-price"
+                    placeholder="Enter price"
+                    [(ngModel)]="customSeating['Middle Balcony'].price"
+                    name="middleBalconyPrice"
+                    required
+                    min="0"
+                    step="0.01"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="middle-balcony-max">Max Tickets Per Order</label>
+                  <input
+                    type="number"
+                    id="middle-balcony-max"
+                    [(ngModel)]="customSeating['Middle Balcony'].maxPerOrder"
+                    name="middleBalconyMax"
+                    min="1"
+                    max="50"
+                    value="10"
+                  />
+                  <small>Maximum 1-50</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-group">
+              <h5>Right Balcony Configuration</h5>
+              <div class="form-row3">
+                <div class="form-group">
+                  <label for="right-balcony-name">Ticket Type Name *</label>
+                  <input
+                    type="text"
+                    id="right-balcony-name"
+                    placeholder="e.g., Senior Discount"
+                    [(ngModel)]="customSeating['Right Balcony'].name"
+                    name="rightBalconyName"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="right-balcony-price">Price (USD) *</label>
+                  <input
+                    type="number"
+                    id="right-balcony-price"
+                    placeholder="Enter price"
+                    [(ngModel)]="customSeating['Right Balcony'].price"
+                    name="rightBalconyPrice"
+                    required
+                    min="0"
+                    step="0.01"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="right-balcony-max">Max Tickets Per Order</label>
+                  <input
+                    type="number"
+                    id="right-balcony-max"
+                    [(ngModel)]="customSeating['Right Balcony'].maxPerOrder"
+                    name="rightBalconyMax"
+                    min="1"
+                    max="50"
+                    value="10"
+                  />
+                  <small>Maximum 1-50</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h4 class="section-title">Promotional Codes & Discounts</h4>
+          <hr class="mt-4" />
+
+          <div class="promo-section">
+            <div class="promo-info">
+              <p class="promo-description">
+                <i class="fas fa-tag"></i> Add promotional codes or discounts that attendees can
+                apply during checkout. You can create percentage discounts or fixed amount
+                discounts.
+              </p>
+            </div>
+
+            <!-- Existing Promotions List (if editing an event) -->
+            <div *ngIf="promotions.length > 0" class="existing-promotions">
+              <h5>Existing Promotions</h5>
+              <div class="promo-list">
+                <div *ngFor="let promo of promotions" class="promo-item">
+                  <div class="promo-header">
+                    <span class="promo-code">{{ promo.code }}</span>
+                    <span class="promo-discount">
+                      {{
+                        promo.discountType === 'percentage'
+                          ? promo.discountValue + '%'
+                          : '$' + promo.discountValue
+                      }}
+                      OFF
+                    </span>
+                    <button
+                      type="button"
+                      class="btn-remove-promo"
+                      (click)="removePromotion(promo.promoId)"
+                    >
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                  <div class="promo-details">
+                    <span class="promo-expiry">
+                      <i class="far fa-calendar-alt"></i> Expires:
+                      {{ promo.expiryDate | date : 'shortDate' }}
+                    </span>
+                    <span class="promo-uses">
+                      <i class="fas fa-users"></i> {{ promo.usedCount }}/{{
+                        promo.maxUses === 0 ? '∞' : promo.maxUses
+                      }}
+                      uses
+                    </span>
+                  </div>
+                  <div *ngIf="promo.applicableTicketTypes.length > 0" class="promo-applicable">
+                    <small>Applicable to: {{ getApplicableTicketNames(promo) }}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Add New Promotion Form -->
+            <div class="add-promo-form">
+              <h5>Add New Promotion</h5>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="promo-code">Promo Code *</label>
+                  <input
+                    type="text"
+                    id="promo-code"
+                    placeholder="e.g., SUMMER20"
+                    [(ngModel)]="newPromotion.code"
+                    name="promoCode"
+                    required
+                    maxlength="20"
+                    #codeInput="ngModel"
+                  />
+                  <small *ngIf="codeInput.invalid && codeInput.touched" class="error">
+                    Promo code is required (max 20 characters)
+                  </small>
+                </div>
+
+                <div class="form-group">
+                  <label for="discount-type">Discount Type *</label>
+                  <select
+                    id="discount-type"
+                    [(ngModel)]="newPromotion.discountType"
+                    name="discountType"
+                    required
+                  >
+                    <option value="percentage">Percentage (%)</option>
+                    <option value="fixed">Fixed Amount ($)</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="discount-value">Discount Value *</label>
+                  <input
+                    type="number"
+                    id="discount-value"
+                    [placeholder]="
+                      newPromotion.discountType === 'percentage' ? 'e.g., 20' : 'e.g., 10'
+                    "
+                    [(ngModel)]="newPromotion.discountValue"
+                    name="discountValue"
+                    required
+                    min="0.01"
+                    [max]="newPromotion.discountType === 'percentage' ? 100 : 1000"
+                    step="0.01"
+                    #valueInput="ngModel"
+                  />
+                  <small>
+                    {{ newPromotion.discountType === 'percentage' ? 'Max: 100%' : 'Max: $1000' }}
+                  </small>
+                  <small *ngIf="valueInput.invalid && valueInput.touched" class="error">
+                    Valid discount value required
+                  </small>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="expiry-date">Expiry Date *</label>
+                  <input
+                    type="date"
+                    id="expiry-date"
+                    [(ngModel)]="newPromotion.expiryDate"
+                    name="expiryDate"
+                    required
+                    [min]="eventDate || ''"
+                    #dateInput="ngModel"
+                  />
+                  <small *ngIf="dateInput.invalid && dateInput.touched" class="error">
+                    Expiry date must be after event date
+                  </small>
+                </div>
+
+                <div class="form-group">
+                  <label for="max-uses">Maximum Uses</label>
+                  <input
+                    type="number"
+                    id="max-uses"
+                    placeholder="e.g., 100 (0 = unlimited)"
+                    [(ngModel)]="newPromotion.maxUses"
+                    name="maxUses"
+                    min="0"
+                    step="1"
+                  />
+                  <small>Enter 0 for unlimited uses</small>
+                </div>
+
+                <div *ngIf="newPromotion.discountType === 'percentage'" class="form-group">
+                  <label for="max-discount-amount">Max Discount Amount ($)</label>
+                  <input
+                    type="number"
+                    id="max-discount-amount"
+                    placeholder="e.g., 50"
+                    [(ngModel)]="newPromotion.maxDiscountAmount"
+                    name="maxDiscountAmount"
+                    min="0"
+                    step="0.01"
+                  />
+                  <small>Optional - maximum discount per order</small>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group full-width">
+                  <label for="min-purchase">Minimum Purchase Amount ($)</label>
+                  <input
+                    type="number"
+                    id="min-purchase"
+                    placeholder="e.g., 50 (leave empty for no minimum)"
+                    [(ngModel)]="newPromotion.minPurchaseAmount"
+                    name="minPurchaseAmount"
+                    min="0"
+                    step="0.01"
+                  />
+                  <small>Optional - minimum purchase required to use this promo</small>
+                </div>
+              </div>
+
+              <!-- Applicable Ticket Types -->
+              <div class="form-group full-width">
+                <label>Applicable Ticket Types</label>
+                <div class="ticket-type-checkboxes">
+                  <div *ngFor="let section of getSeatingSections()" class="checkbox-group">
+                    <input
+                      type="checkbox"
+                      [id]="'ticket-' + section"
+                      [value]="section"
+                      [checked]="isTicketTypeSelected(section)"
+                      (change)="toggleTicketType(section, $event)"
+                    />
+                    <label [for]="'ticket-' + section">
+                      {{ customSeating[section]?.name || section }}
+                    </label>
+                  </div>
+                </div>
+                <small
+                  >Select which ticket types this promotion applies to (leave all unchecked to apply
+                  to all)</small
+                >
+              </div>
+
+              <div class="form-actions">
+                <button
+                  type="button"
+                  class="btn-add-promo"
+                  (click)="addPromotion()"
+                  [disabled]="!isPromotionValid()"
+                >
+                  <i class="fas fa-plus"></i> Add Promotion
+                </button>
+                <button type="button" class="btn-clear-promo" (click)="clearPromotionForm()">
+                  Clear Form
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <hr class="mt-4" />
+          <button type="submit" class="submit-btn">Create Event</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

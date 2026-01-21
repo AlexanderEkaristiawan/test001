@@ -1,0 +1,706 @@
+.main-background {
+  background-image: url('../../../assets/clean-bg.png');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+.spacer {
+  height: 150px;
+}
+
+.section-toggle-title {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 1.7rem;
+  color: #000000;
+}
+
+.page-section {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 24px;
+  margin-top: 25px;
+}
+
+h1 {
+  font-size: 2.8rem;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 1.4rem;
+  opacity: 0.9;
+}
+
+.main-content {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+  gap: 20px;
+}
+
+.theater-section {
+  flex: 1;
+  min-width: 350px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+
+.image {
+  flex: 1;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.booking-section {
+  min-width: 100px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+
+.seating-area {
+  margin: 20px 0;
+}
+
+.area-label {
+  text-align: center;
+  font-weight: bold;
+  margin: 10px 0;
+  padding: 8px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+}
+
+.seating-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.row-indicator {
+  width: 30px;
+  height: 30px;
+  margin: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.seat {
+  display: flex;
+  width: 25px;
+  height: 30px;
+  margin: 3px;
+  background-color: #7e7e7e;
+  border-radius: 25%;
+  cursor: pointer;
+  transition: all 0.2s;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: white;
+  position: relative;
+}
+
+.seat-price {
+  font-weight: bold;
+}
+
+
+
+
+.seat.occupied {
+  background-color: #202020;
+  cursor: not-allowed;
+}
+
+
+
+.aisle {
+  width: 40px;
+}
+
+
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1.1rem;
+}
+
+button {
+  background-color: #b11515;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  width: 100%;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #ec1f1f;
+}
+
+button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.summary {
+  background-color: #fee9e9;
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.summary h3 {
+  margin-bottom: 10px;
+  color: #b11515;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.total {
+  font-weight: bold;
+  border-top: 1px solid #b11515;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin: 0 10px;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  margin-right: 5px;
+}
+
+.available-color {
+  background-color: #797979;
+}
+
+.selected-color {
+  background-color: #af0000;
+}
+
+.occupied-color {
+  background-color: #000000;
+}
+
+.seat-description {
+  font-size: small;
+  font-weight: lighter;
+}
+
+.seat-name {
+  font-weight: bold;
+}
+
+.section-nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.section-nav button {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 1rem;
+  color: #333;
+}
+
+.picture {
+  padding: 24px;
+}
+
+.section-nav button:hover {
+  background-color: #f0f0f0;
+  border-color: #ccc;
+  color: #333;
+}
+
+.section-nav button.active {
+  background-color: #b11515;
+  color: white;
+  border-color: #b11515;
+}
+
+.seating-container {
+  min-height: 300px;
+  /* To prevent layout shift when changing sections */
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+  }
+
+  .theater-section,
+  .booking-section {
+    width: 100%;
+  }
+
+  .poster-and-details {
+    flex-direction: column;
+  }
+
+  .poster-section {
+    width: 100%;
+    flex: none;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+  margin-top: 50px;
+}
+
+/* Additional styles for event overview, poster, tickets and promotions */
+.event-overview {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.poster-and-details {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.poster-section {
+  width: 300px;
+  flex: 0 0 300px;
+}
+
+.poster-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 0.5rem;
+  background: #fff;
+}
+
+.poster-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+}
+
+.event-detail-section {
+  flex: 1 1 auto;
+  padding: 0.5rem 0.75rem;
+  background: #fafafa;
+  border-radius: 6px;
+  border: 1px solid #f0f0f0;
+}
+
+.event-detail-section .detail-row {
+  margin: 0.35rem 0;
+}
+
+.description-text {
+  margin-top: 0.35rem;
+  color: #333;
+}
+
+.ticket-setup-summary {
+  margin-top: 0.75rem;
+}
+
+.ticket-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.ticket-section-card {
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  padding: 0.6rem;
+  border-radius: 6px;
+}
+
+.ticket-section-card h3 {
+  margin: 0 0 0.4rem 0;
+}
+
+.ticket-row {
+  font-size: 1.05rem;
+  margin: 0.25rem 0;
+}
+
+.promotion-details {
+  background-color: #f9f9f9;
+  padding: 24px;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+  border: 1px solid #eee;
+}
+
+.promotions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.promo-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-left: 5px solid #b11515;
+  /* Accent color */
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.promo-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.promo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.promo-header strong {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  font-weight: bold;
+}
+
+.promo-discount {
+  background-color: #b11515;
+  color: #fff;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  text-align: center;
+  min-width: 80px;
+}
+
+.promo-row {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.promo-row strong {
+  color: #333;
+  margin-right: 8px;
+}
+
+
+
+.section-title {
+  margin-top: 50px;
+  margin-bottom: 24px;
+}
+
+.image {
+  width: 500px;
+  height: 350px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 50px;
+  margin-top: 50px;
+}
+
+.back-btn {
+  width: 200px;
+  background: #9c0000;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.back-btn:hover {
+  background: #c94545;
+}
+
+.submit-btn:active {
+  background-color: #db0101;
+}
+
+.submit-btn:hover {
+  background-color: #db0101;
+}
+
+
+.section-configuration {
+  margin-bottom: 30px;
+}
+
+.section-group {
+  margin-bottom: 25px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #db3434;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.section-group h5 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+
+.section-group h5::after {
+  content: attr(data-section);
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #7f8c8d;
+  font-weight: normal;
+}
+
+
+
+.additional-options {
+  margin-top: 30px;
+  padding: 25px;
+  background-color: #f0f7ff;
+  border-radius: 8px;
+  border: 1px solid #d1e7ff;
+}
+
+.additional-options h5 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+}
+
+
+
+.additional-options small {
+  display: block;
+  color: #666;
+  font-size: 0.95rem;
+  margin-top: 5px;
+}
+
+/* Style for better input visibility */
+input[type="text"],
+input[type="number"],
+select {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  transition: border-color 0.3s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  border-color: #db3434;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+
+
+
+
+/* Help text styling */
+.help-text {
+  font-size: 1rem;
+  color: #666;
+  font-style: italic;
+  margin-top: 5px;
+}
+
+/* Promo Section Styles */
+.promo-section {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.promo-info {
+  background: #fde3e3;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.promo-description {
+  margin: 0;
+  color: #d21919;
+  font-size: 16px;
+}
+
+.promo-description i {
+  margin-right: 8px;
+}
+
+/* Existing Promotions */
+.existing-promotions {
+  margin-bottom: 25px;
+}
+
+.promo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.promo-item {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.promo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.promo-code {
+  font-weight: bold;
+  font-size: 18px;
+  color: #333;
+  background: #f5f5f5;
+  padding: 4px 8px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+.promo-details {
+  display: flex;
+  gap: 20px;
+  font-size: 15px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.promo-details i {
+  margin-right: 4px;
+}
+
+.promo-applicable small {
+  color: #666;
+  font-style: italic;
+}
+
+.error {
+  color: #d32f2f;
+  font-size: 14px;
+}

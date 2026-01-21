@@ -1,0 +1,48 @@
+* {
+  font-family: monsterrat, sans-serif;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.8); /* Make card semi-transparent */
+  margin-top: 40px;
+  padding: 24px;
+  border-radius: 5%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-color: none;
+}
+
+.text-center {
+  text-align: center;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #b11515;
+  color: white;
+  border: none;
+}
+
+.login-link {
+  color: #b11515; 
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none; 
+}
+
+.login-link:hover {
+  text-decoration: underline; 
+  color: #ff0000; 
+}
+
+.main-background {
+  background-image: url('../../../assets/clean-bg.png'); 
+  background-size: cover; 
+  background-position: center top; 
+  background-repeat: no-repeat; 
+  height: 100vh; 
+  
+}
+
+.btn-primary:active {
+  background-color: #db0101;
+}

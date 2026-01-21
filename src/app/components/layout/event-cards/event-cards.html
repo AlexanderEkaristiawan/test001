@@ -1,0 +1,58 @@
+<div class="card">
+  <!-- Photo -->
+  <img
+    [src]="picture || '../../../assets/card-poster.png'"
+    class="card-img-top"
+    alt="Event Poster"
+    style="height: 200px; object-fit: cover"
+  />
+  <div class="card-body">
+    <a class="link" [routerLink]="'/event/' + id">
+      <h3 class="card-title">{{ title }}</h3>
+    </a>
+    <p class="text-secondary">
+      {{ description }}
+    </p>
+
+    <div class="eventdetail">
+      <div *ngIf="date">
+        <p class="card-text"><strong>Date:</strong> {{ date | date : 'fullDate' }}</p>
+      </div>
+      <div *ngIf="startTime">
+        <p class="card-text"><strong>Time:</strong> {{ startTime }}</p>
+      </div>
+      <div *ngIf="location">
+        <p class="card-text"><strong>Location:</strong> {{ location }}</p>
+      </div>
+      <div *ngIf="ticketsLeft > 0 || status">
+        <p class="card-text">
+          <strong>Tickets Left:</strong> {{ ticketsLeft > 0 ? ticketsLeft : 'Sold Out' }}
+        </p>
+      </div>
+    </div>
+
+    <ng-container *ngIf="viewMode === 'user'">
+      <ng-container *ngIf="ticketsLeft > 0; else soldOut">
+        <button class="btn btn-primary" (click)="onBook()">Book Now</button>
+      </ng-container>
+
+      <ng-template #soldOut>
+        <ng-container *ngIf="status === 'upcoming'">
+          <ng-container *ngIf="!onWaitlist; else onWaitlistTmpl">
+            <button class="btn btn-secondary" (click)="onJoinWaitlist()">Join Waitlist</button>
+          </ng-container>
+          <ng-template #onWaitlistTmpl>
+            <button class="btn btn-success" disabled>On Waiting List</button>
+          </ng-template>
+        </ng-container>
+        <ng-container *ngIf="status !== 'upcoming' && status">
+          <button class="btn btn-secondary" disabled>Sold Out</button>
+        </ng-container>
+      </ng-template>
+    </ng-container>
+
+    <ng-container *ngIf="viewMode === 'organizer'">
+      <button (click)="onView()" class="btn btn-primary">View Event</button>
+    </ng-container>
+  </div>
+</div>

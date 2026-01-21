@@ -1,0 +1,144 @@
+.main-background {
+  background-image: url('../../../assets/clean-bg.png'); 
+  background-size: cover; 
+  background-position: center top; 
+  background-repeat: no-repeat; 
+  background-attachment: fixed; 
+  min-height: 100vh; 
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+/* Two-column layout */
+.two-column-container {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.form-column, .list-column {
+  flex: 1; 
+  min-width: 0;
+}
+
+/* Form card adjustments */
+.form-column .card {
+  height: 100%;
+}
+
+/* List card adjustments */
+.list-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.list-container {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 500px; 
+}
+
+/* Organizer list item adjustments */
+.organizer-info {
+  flex: 1;
+  min-width: 0; 
+}
+
+.organizer-actions {
+  flex-shrink: 0; 
+}
+
+/* Responsive design */
+@media (max-width: 992px) {
+  .two-column-container {
+    flex-direction: column;
+  }
+  
+  .form-column, .list-column {
+    width: 100%;
+  }
+  
+  .list-container {
+    max-height: 400px;
+  }
+}
+
+.back-btn {
+  background: #9c0000;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.back-btn:hover {
+  background: #c94545;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 16px;
+  background-color: #fff;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.card-header {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 12px;
+  background-color: White;
+  color: #333;
+  text-align: center;
+  width: 100%;
+}
+
+.form-control {
+  width: 100%; 
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  background-color: #b70122;
+  border-color: #b70122;
+  
+}
+
+.page-title {
+  font-size: 2em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.list-group-item {
+  width: 100%; 
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.btn-primary:active {
+  background-color: #db0101;
+}
+
+/* Form label styling */
+.form-label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  display: block;
+}

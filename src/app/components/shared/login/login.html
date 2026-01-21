@@ -1,0 +1,64 @@
+<div class="main-background">
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="text-center">Login</h3>
+          </div>
+
+          <div class="card-body">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+              <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  formControlName="email"
+                  placeholder="Enter your email"
+                />
+                <div
+                  *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+                  class="text-danger"
+                >
+                  Please enter a valid email.
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  formControlName="password"
+                  placeholder="Enter your password"
+                />
+                <div
+                  *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+                  class="text-danger"
+                >
+                  Password is required.
+                </div>
+              </div>
+
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">
+                  Login
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="card-footer text-center">
+            <small>
+              Don't have an account?
+              <a routerLink="/register" class="register-link" routerLinkActive="active">Register here</a>
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

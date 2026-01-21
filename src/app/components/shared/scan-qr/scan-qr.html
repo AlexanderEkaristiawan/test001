@@ -1,0 +1,29 @@
+<div class="main-background">
+  <div class="scanner-container">
+  <div class="scanner-header">
+    <h1>QR Code Scanner</h1>
+    <p>Position a QR code within the frame to scan</p>
+  </div>
+
+  <div class="scanner-area">
+    <div class="scanner-frame">
+      <video #videoElement class="video-preview" muted playsinline></video>
+      <canvas #canvasElement class="video-canvas" hidden></canvas>
+      <div class="scan-animation"></div>
+      <div class="corner top-left"></div>
+      <div class="corner top-right"></div>
+      <div class="corner bottom-left"></div>
+      <div class="corner bottom-right"></div>
+    </div>
+  </div>
+
+  <div class="controls">
+   <button class="scan-button"  (click)="onScanButton()">{{ scannedOnce ? 'Scan Again' : 'Scan' }}</button>
+  </div>
+
+ 
+</div>
+
+</div>
+
+

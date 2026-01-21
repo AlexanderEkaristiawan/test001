@@ -1,0 +1,169 @@
+<div class="main-background">
+  <div class="container mb-7 mt-7">
+    <div *ngIf="loading" class="loading">Loading reports...</div>
+
+    <div *ngIf="!loading" class="reports-content">
+      <!-- Analytics Page -->
+      <div class="page-section">
+        <div class="header">
+          <h1>Organizer Analytics Reports</h1>
+          <button class="back-btn" routerLink="/organizer">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+          </button>
+        </div>
+
+        <hr class="my-4" />
+
+        <div class="quick-action">
+          <div class="time-filter">
+            <div class="time-options">
+              <button class="time-option" [class.active]="activeFilter === 'last7days'"
+                (click)="setFilter('last7days')">
+                Weekly
+              </button>
+              <button class="time-option" [class.active]="activeFilter === 'last30days'"
+                (click)="setFilter('last30days')">
+                Monthly
+              </button>
+              <button class="time-option" [class.active]="activeFilter === 'allTime'" (click)="setFilter('allTime')">
+                All Time
+              </button>
+            </div>
+          </div>
+
+          <button class="export-pdf-btn" (click)="openExportDialog()">
+            <i class="fas fa-file-pdf"></i> Export PDF
+          </button>
+        </div>
+
+        <div class="dashboard-cards">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Total Events</div>
+              <div class="card-icon red">
+                <i class="fas fa-calendar-alt"></i>
+              </div>
+            </div>
+            <div class="card-value">{{ totalEvents | number }}</div>
+            <div class="card-footer">Events Created</div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Ticket Sales</div>
+              <div class="card-icon red">
+                <i class="fas fa-ticket-alt"></i>
+              </div>
+            </div>
+            <div class="card-value">{{ totalTicketsSold | number }}</div>
+            <div class="card-footer">
+              {{
+              activeFilter === 'last7days'
+              ? 'Weekly'
+              : activeFilter === 'last30days'
+              ? 'Monthly'
+              : 'All Time'
+              }}
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Revenue</div>
+              <div class="card-icon red">
+                <i class="fas fa-dollar-sign"></i>
+              </div>
+            </div>
+            <div class="card-value">{{ totalRevenue | currency : 'USD' : 'symbol' : '1.0-0' }}</div>
+            <div class="card-footer">Net of Discounts</div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Seat Occupancy</div>
+              <div class="card-icon red">
+                <i class="fas fa-users"></i>
+              </div>
+            </div>
+            <div class="card-value">{{ occupancyRate | number : '1.0-2' }}%</div>
+            <div class="card-footer">Average Rate</div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Promo Impact</div>
+              <div class="card-icon red">
+                <i class="fas fa-tag"></i>
+              </div>
+            </div>
+            <div class="card-value">{{ totalDiscountAmount | currency : 'USD' : 'symbol' : '1.0-0' }}</div>
+            <div class="card-footer">Total Discounts Given</div>
+          </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+          <div class="chart-container">
+            <h3>Revenue and Sales Trend</h3>
+            <div class="chart-wrapper">
+              <canvas id="revenueChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <h3>Ticket Sales by Type</h3>
+            <div class="chart-wrapper">
+              <canvas id="salesByTypeChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <h3>Seat Occupancy by Event</h3>
+            <div class="chart-wrapper">
+              <canvas id="occupancyChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <h3>Promo Code Impact</h3>
+            <div class="chart-wrapper">
+              <canvas id="promoImpactChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Promo Code Details Section -->
+        <div class="page-section">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Promo Code Details</h3>
+            </div>
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Code</th>
+                      <th>Uses</th>
+                      <th>Total Discount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let promo of promoImpact">
+                      <td>{{ promo.code }}</td>
+                      <td>{{ promo.uses }}</td>
+                      <td>{{ promo.totalDiscount | currency:'USD':'symbol' }}</td>
+                    </tr>
+                    <tr *ngIf="promoImpact.length === 0">
+                      <td colspan="3" class="text-center">No promo codes used in this period.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,69 @@
+
+
+<div class="main-background">
+  <div class="spacer"></div>
+  <div class="container" *ngIf="organizer; else notfound">
+    <div class="card">
+      <h3 class="card-header">Organizer Details</h3>
+      <div *ngIf="!editMode">
+        <dl class="row">
+          <dt class="col-sm-3">Full name</dt>
+          <dd class="col-sm-9">: {{ organizer.fullName }}</dd>
+          <dt class="col-sm-3">Email</dt>
+          <dd class="col-sm-9">: {{ organizer.email }}</dd>
+          <dt class="col-sm-3">Phone</dt>
+          <dd class="col-sm-9">: {{ organizer.phone }}</dd>
+          <dt class="col-sm-3">Organization</dt>
+          <dd class="col-sm-9">: {{ organizer.organizationName }}</dd>
+          <dt class="col-sm-3">First login</dt>
+          <dd class="col-sm-9">: {{ organizer.isFirstLogin ? 'Yes' : 'No' }}</dd>
+          <dt class="col-sm-3">Created</dt>
+          <dd class="col-sm-9">: {{ organizer.createdAt }}</dd>
+          <dt class="col-sm-3">Updated</dt>
+          <dd class="col-sm-9">: {{ organizer.updatedAt }}</dd>
+        </dl>
+      </div>
+
+      <div *ngIf="!editMode">
+        <div class="btn-group">
+          <button class="btn btn-primary" (click)="enableEdit()">Edit</button>
+          <button class="btn btn-danger" (click)="confirmDelete()">Delete</button>
+          <a class="btn btn-secondary" routerLink="/admin/organizers">Back to organizers</a>
+        </div>
+      </div>
+
+      <div *ngIf="editMode">
+        <form [formGroup]="form" (ngSubmit)="save()">
+          <div class="mb-3">
+            <label class="form-label">Full name</label>
+            <input class="form-control" formControlName="fullName" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input class="form-control" formControlName="email" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Organization</label>
+            <input class="form-control" formControlName="organizationName" />
+          </div>
+          <div class="mb-3">
+            <button class="btn btn-success" type="submit">Save</button>
+            <button type="button" class="btn btn-secondary ms-2" (click)="editMode = false">
+              Cancel
+            </button>
+          </div>
+        </form>
+        <div *ngIf="message" class="alert alert-success">{{ message }}</div>
+        <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #notfound>
+    <div class="container mt-4">
+      <div class="alert alert-warning">Organizer not found.</div>
+      <a class="btn btn-secondary" routerLink="/admin/organizers">Back to organizers</a>
+    </div>
+  </ng-template>
+</div>
+

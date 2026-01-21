@@ -1,0 +1,70 @@
+<div class="main-background">
+  <div class="container mt-4">
+    <div class="header">
+      <h3 class="page-title">Manage Organizers</h3>
+      <button class="back-btn" routerLink="/admin">
+        <i class="fas fa-arrow-left"></i> Back to Home
+      </button>
+    </div>
+
+    <hr class="my-4" />
+
+    <div class="two-column-container">
+      <div class="form-column">
+        <div class="card">
+          <h4 class="card-header">Add New Organizer</h4>
+          <form [formGroup]="form" (ngSubmit)="submit()">
+            <div class="mb-3">
+              <label class="form-label">Full Name</label>
+              <input class="form-control" formControlName="fullName" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email Address</label>
+              <input class="form-control" formControlName="email" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Phone Number</label>
+              <input class="form-control" formControlName="phone" placeholder="e.g., +1-234-567-8900" />
+              <small class="text-muted">Optional</small>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Organization Name</label>
+              <input class="form-control" formControlName="organizationName" />
+            </div>
+            <button class="btn btn-primary" type="submit">Add Organizer</button>
+            <div *ngIf="message" class="alert alert-success mt-3">{{ message }}</div>
+            <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Right column: Organizer List -->
+      <div class="list-column">
+        <div class="card list-card">
+          <h4 class="card-header">Existing Organizers</h4>
+          <div class="list-container">
+            <ul class="list-group">
+              <li
+                *ngFor="let o of organizers"
+                class="list-group-item d-flex justify-content-between align-items-start"
+              >
+                <div class="organizer-info">
+                  <strong>{{ o.fullName }}</strong> — {{ o.email }} <br />
+                  <small *ngIf="o.organizationName" class="text-muted">{{ o.organizationName }}</small>
+                </div>
+                <div class="organizer-actions">
+                  <a class="btn btn-sm btn-secondary me-2" [routerLink]="['/admin/organizers', o.id]"
+                    >Details</a
+                  >
+                  <button class="btn btn-sm btn-danger" (click)="deleteOrganizer(o.id)">Delete</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-4" />
+  </div>
+</div>

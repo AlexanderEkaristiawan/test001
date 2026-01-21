@@ -1,0 +1,139 @@
+<div class="main-background">
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="card shadow-lg">
+          <div class="card-header text-center py-4">
+            <h3 class="mb-2"><i class="fas fa-ticket-alt me-2"></i>Apply Promo Code</h3>
+            <p class="text-muted mb-0">Get discounts on your event tickets</p>
+          </div>
+          
+          <div class="card-body p-4">
+            <!-- Current Booking Summary -->
+            <div class="booking-summary mb-4 p-3 bg-light rounded border">
+              <h5 class="mb-3"><i class="fas fa-receipt me-2"></i>Booking Summary</h5>
+              <div class="row">
+                <div class="col-6">
+                  <p class="mb-2">Subtotal:</p>
+                  <p class="mb-2">Discount:</p>
+                  <hr class="my-2">
+                  <p class="mb-0 fw-bold">Final Price:</p>
+                </div>
+                <div class="col-6 text-end">
+                  <p class="mb-2">{{ totalPrice | currency:'USD':'symbol':'1.2-2' }}</p>
+                  <p class="mb-2 text-danger">-{{ discount | currency:'USD':'symbol':'1.2-2' }}</p>
+                  <hr class="my-2">
+                  <p class="mb-0 fw-bold h5 text-success">{{ finalPrice | currency:'USD':'symbol':'1.2-2' }}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Promo Code Input -->
+            <div class="promo-input mb-4">
+              <label class="form-label fw-bold">Enter Promo Code</label>
+              <div class="input-group input-group-lg">
+                <span class="input-group-text">
+                  <i class="fas fa-percentage"></i>
+                </span>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  [(ngModel)]="promoCode"
+                  placeholder="e.g., SUMMER20"
+                  [disabled]="!!promoDetails"
+                  (keyup.enter)="applyPromoCode()"
+                />
+                <button 
+                  class="btn btn-success" 
+                  (click)="applyPromoCode()"
+                  [disabled]="!promoCode || !!promoDetails"
+                >
+                  Apply
+                </button>
+              </div>
+              <div class="form-text text-muted">
+                Enter your promo code and click Apply. Only one promo per booking.
+              </div>
+            </div>
+
+            <!-- Applied Promotion -->
+            <div *ngIf="promoDetails" class="applied-promo mb-4 p-3 border border-success rounded bg-success bg-opacity-10">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-success mb-0">
+                  <i class="fas fa-check-circle me-2"></i>
+                  Promo Code Applied
+                </h5>
+                <button class="btn btn-sm btn-outline-danger" (click)="removePromoCode()">
+                  <i class="fas fa-times me-1"></i> Remove
+                </button>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <div class="d-flex align-items-center mb-2">
+                    <div class="badge bg-primary me-2">CODE</div>
+                    <h4 class="mb-0">{{ promoDetails.code }}</h4>
+                  </div>
+                  <p class="mb-1">
+                    <i class="fas fa-tag me-2 text-success"></i>
+                    <strong class="text-success">{{ promoDetails.discountText }}</strong>
+                  </p>
+                  <p class="mb-0">
+                    <i class="far fa-calendar-alt me-2"></i>
+                    Expires: {{ promoDetails.expiryDate }}
+                  </p>
+                </div>
+                <div class="col-md-6">
+                  <h6 class="mb-2">Conditions:</h6>
+                  <ul class="list-unstyled mb-0">
+                    <li *ngFor="let condition of promoDetails.conditions" class="mb-1">
+                      <i class="fas fa-check-circle text-success me-2 small"></i>
+                      <span class="small">{{ condition }}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Messages -->
+            <div *ngIf="promoError" class="alert alert-danger alert-dismissible fade show mt-3">
+              <i class="fas fa-exclamation-triangle me-2"></i>
+              {{ promoError }}
+              <button type="button" class="btn-close" (click)="promoError = ''"></button>
+            </div>
+
+            <div *ngIf="promoSuccess && !promoDetails" class="alert alert-success alert-dismissible fade show mt-3">
+              <i class="fas fa-check-circle me-2"></i>
+              {{ promoSuccess }}
+              <button type="button" class="btn-close" (click)="promoSuccess = ''"></button>
+            </div>
+
+            <!-- Info Section -->
+            <div class="info-section mt-4 p-3 bg-info bg-opacity-10 rounded border border-info">
+              <h6><i class="fas fa-info-circle me-2"></i>About Promo Codes</h6>
+              <ul class="small mb-0">
+                <li>Promo codes are case-insensitive</li>
+                <li>Only one promo code can be used per booking</li>
+                <li>Promo codes may have expiry dates and usage limits</li>
+                <li>Some codes may only apply to specific seat types</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="card-footer text-center py-3">
+            <div class="d-flex justify-content-between">
+              <button class="btn btn-outline-secondary" (click)="router.navigate(['/select-seats'])">
+                <i class="fas fa-arrow-left me-2"></i> 
+                Back
+              </button>
+              <button class="btn btn-primary px-4" (click)="continueToReview()">
+                Continue to Review
+                <i class="fas fa-arrow-right ms-2"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

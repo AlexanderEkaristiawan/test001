@@ -1,0 +1,325 @@
+.my-events-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.main-background {
+  background-image: url('../../../assets/clean-bg.png'); 
+  background-size: cover; 
+  background-position: center top; 
+  background-repeat: no-repeat; 
+  background-attachment: fixed; 
+  min-height: 100vh; 
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+.view-switcher {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+.view-switcher button {
+  padding: 10px 20px;
+  border: none;
+  background: #f5f5f5;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.view-switcher button.active {
+  background: #ad0000;
+  color: white;
+}
+
+.view-switcher button:hover:not(.active) {
+  background: #e0e0e0;
+}
+
+.loading-container {
+  text-align: center;
+  padding: 40px;
+}
+
+.empty-state {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 40px;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.bookings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.booking-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Modal styles for QR display */
+@keyframes fadeInScaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  transition: opacity 0.3s ease;
+}
+
+.modal-content {
+  background: #ffffff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 850px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: fadeInScaleUp 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  overflow: hidden; /* To contain the header background */
+}
+
+.modal-poster {
+  width: 100%;
+  margin-bottom: 20px; /* Add some space below the poster */
+  border-radius: 8px; /* Match the modal's border radius */
+  overflow: hidden; /* Keep the rounded corners on the image */
+  background-color: #f0f0f0;
+}
+
+.modal-poster img {
+  width: 100%;
+  height: auto; /* Let the height adjust to the width */
+  display: block; /* Remove any extra space below the image */
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background: #f7f7f7;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  font-weight: 300;
+  color: #888;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.modal-close:hover {
+  color: #333;
+}
+
+.modal-body {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+  align-items: flex-start;
+}
+
+.modal-left {
+  flex: 1 1 60%;
+  line-height: 1.6;
+}
+
+.modal-left p {
+  margin: 0 0 12px 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.modal-left p strong {
+  color: #333;
+  font-weight: 600;
+  min-width: 100px;
+  display: inline-block;
+}
+
+.booking-status-display {
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #6c757d; /* Default/Past */
+}
+
+.modal-left .booking-status-paid {
+  background-color: #28a745;
+  color: #fff;
+}
+.modal-left .booking-status-pending {
+  background-color: #ffc107;
+  color: #333;
+}
+.modal-left .booking-status-cancelled {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+
+.modal-right {
+  flex: 0 0 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.qr-wrapper img {
+  width: 240px;
+  height: 240px;
+  object-fit: contain;
+  border: 6px solid #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.qr-caption {
+  text-align: center;
+  color: #666;
+  margin-top: 16px;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+
+.btn-danger{
+  margin-right: 24px;
+}
+
+
+.booking-card h3 {
+  margin-top: 0;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.booking-card p {
+  margin: 8px 0;
+  color: #555;
+}
+
+.booking-card.history {
+  background: #f9f9f9;
+  border-left: 4px solid #6c757d;
+}
+
+.booking-card.waitlist {
+  background: #fff3cd;
+  border-left: 4px solid #ffc107;
+}
+
+/* Status styling */
+.status-upcoming {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.status-ongoing {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.status-completed, .status-past {
+  color: #6c757d;
+  font-weight: bold;
+}
+
+.status-cancelled {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.booking-status-paid {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.booking-status-pending {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+.booking-status-cancelled {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.exit-waitlist-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+
+.exit-waitlist-btn:hover {
+  background: #c82333;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .view-switcher {
+    flex-direction: column;
+  }
+  
+  .view-switcher button {
+    width: 100%;
+  }
+  
+  .my-events-container {
+    padding: 10px;
+  }
+}

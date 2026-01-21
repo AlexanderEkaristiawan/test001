@@ -1,0 +1,151 @@
+<div class="container">
+  <header>
+    <h1>HELP Auditorium</h1>
+    <p class="subtitle">Seat Layout Map</p>
+  </header>
+
+  <div class="picture">
+    <img src="/assets/auditorium-layout.png" alt="Seating Chart" class="image" />
+  </div>
+
+  <div class="main-content">
+    <div class="theater-section">
+      <h3 class="section-toggle-title">Section Toggle</h3>
+      <div class="section-nav">
+        <button 
+          *ngFor="let section of sections; let i = index"
+          (click)="changeSection(i)"
+          [class.active]="i === currentSectionIndex"
+        >
+          {{ section.name }}
+        </button>
+      </div>
+
+      <div class="seating-container">
+        <div *ngFor="let section of sections; let i = index">
+          <div class="seating-area" *ngIf="i === currentSectionIndex">
+            <div class="area-label">
+              {{ section.name + " (" + (section.seatRows[0][0].seatType || '') + ")" }}
+              <span class="section-limit" *ngIf="getSectionMaxLimit(section.name)">
+                (Max {{ getSectionMaxLimit(section.name) }} per order)
+              </span>
+            </div>
+            <div class="seating-row" *ngFor="let row of section.seatRows">
+              <div class="row-indicator">{{ row[0].number.split('-')[0] }}</div>
+              <div
+                class="seat"
+                [ngClass]="{
+                  selected: seat.selected,
+                  occupied: seat.occupied,
+                  'limit-exceeded': isSeatSelectionExceedingLimit(seat)
+                }"
+                (click)="selectSeat(seat)"
+                *ngFor="let seat of row"
+                [title]="getSeatTooltip(seat)"
+              >
+                {{ seat.number.split('-')[1] }}
+              </div>
+              <div class="row-indicator">{{ row[0].number.split('-')[0] }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-color available-color"></div>
+          <span>Available</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color selected-color"></div>
+          <span>Selected</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color occupied-color"></div>
+          <span>Occupied</span>
+        </div>
+        
+      </div>
+    </div>
+
+    <div class="booking-section">
+      <h2>Book Your Tickets</h2>
+
+      <!-- Validation Messages -->
+      <div class="validation-messages" *ngIf="validationErrors.length > 0">
+        <div class="validation-error">
+          <i class="fas fa-exclamation-circle"></i>
+          <div class="error-content">
+            <strong>Ticket Limits Exceeded</strong>
+            <ul>
+              <li *ngFor="let error of validationErrors">{{ error }}</li>
+            </ul>
+            <small>Please deselect some seats to proceed</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="booking-form">
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input
+            type="text"
+            id="fullName"
+            [(ngModel)]="booking.fullName"
+            name="fullName"
+            placeholder="Full name"
+            readonly
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            [(ngModel)]="booking.email"
+            name="email"
+            placeholder="Email"
+            readonly
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="performance">Event Name</label>
+          <input id="performance" type="text" [value]="booking.performance" readonly />
+        </div>
+
+        <div class="summary" *ngIf="selectedSeats.length > 0">
+          <h3>Order Summary</h3>
+          <div class="summary-item" *ngFor="let seat of selectedSeats">
+            <span class="seat-name">
+              Seat {{ seat.number }}<br>
+              <small class="seat-description">({{ seat.section }}) ({{ seat.seatType }})</small>
+            </span>
+            <span class="seat-price">${{ seat.price }}</span>
+          </div>
+          <div class="summary-item total">
+            <span>Total</span>
+            <span>${{ totalPrice }}</span>
+          </div>
+        </div>
+
+        <button
+          (click)="confirmBooking()"
+          [disabled]="
+            selectedSeats.length === 0 || 
+            !booking.fullName || 
+            !booking.email || 
+            !selectedEvent || 
+            currentUser?.role === 'organizer' || 
+            currentUser?.role === 'admin' ||
+            validationErrors.length > 0
+          "
+          [class.btn-disabled]="validationErrors.length > 0"
+        >
+          {{ validationErrors.length > 0 ? 'Fix Ticket Limits First' : 'Confirm Booking' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

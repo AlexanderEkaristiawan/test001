@@ -1,0 +1,85 @@
+<div class="main-background">
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="text-center">Payment Process</h3>
+          </div>
+          <div class="card-body">
+            <form (ngSubmit)="processPayment()">
+              <div class="form-group">
+                <label for="paymentMethod">Select Payment Method:</label>
+                <select
+                  id="paymentMethod"
+                  class="form-control"
+                  [(ngModel)]="paymentMethod"
+                  name="paymentMethod"
+                >
+                  <option value="credit-card">Credit Card</option>
+                  <option value="e-wallet">E-Wallet</option>
+                </select>
+              </div>
+
+              <div *ngIf="paymentMethod === 'credit-card'">
+                <div class="form-group">
+                  <label for="cardNumber">Card Number:</label>
+                  <input
+                    type="text"
+                    id="cardNumber"
+                    class="form-control"
+                    [(ngModel)]="cardNumber"
+                    name="cardNumber"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="expiryDate">Expiry Date:</label>
+                  <input
+                    type="text"
+                    id="expiryDate"
+                    class="form-control"
+                    [(ngModel)]="expiryDate"
+                    name="expiryDate"
+                    placeholder="MM/YY"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="cvv">CVV:</label>
+                  <input
+                    type="text"
+                    id="cvv"
+                    class="form-control"
+                    [(ngModel)]="cvv"
+                    name="cvv"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div *ngIf="paymentMethod === 'e-wallet'">
+                <div class="form-group">
+                  <label for="walletProvider">Select E-Wallet Provider:</label>
+                  <select
+                    id="walletProvider"
+                    class="form-control"
+                    [(ngModel)]="walletProvider"
+                    name="walletProvider"
+                  >
+                    <option value="paypal">PayPal</option>
+                    <option value="gpay">Google Pay</option>
+                    <option value="applepay">Apple Pay</option>
+                  </select>
+                </div>
+              </div>
+              <div class="card-footer text-center">
+                <button type="submit" class="btn btn-primary mt-3">Pay Now</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

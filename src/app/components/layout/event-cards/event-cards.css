@@ -1,0 +1,68 @@
+.card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 10px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.text-secondary {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+  font-weight: bold;
+  color: #333;
+  text-decoration-color: #b70122;
+  transition: color 0.3s ease;
+}
+
+.link {
+  text-decoration: underline;
+  text-decoration-color: #b70122;
+}
+
+a:hover .card-title {
+  color: #df0f35; 
+}
+
+.card-text {
+  color: #666;
+}
+
+.btn-primary {
+  margin-top: auto;
+  background-color: #b70122;
+  border-color: #b70122;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-secondary {
+  margin-top: auto;
+}
+
+.btn-primary:hover {
+  background-color: #df0f35;
+  border-color: #df0f35;
+}
+
+.eventdetail{
+  margin-bottom: 24px;
+}

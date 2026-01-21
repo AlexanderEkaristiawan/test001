@@ -1,0 +1,112 @@
+<div class="main-background">
+  <div class="container mb-7 mt-7">
+    <div class="main-content">
+      <div class="header">
+        <h1>Organizer Dashboard</h1>
+      </div>
+
+      <div class="time-filter">
+        <div class="time-options">
+          <button
+            class="time-option"
+            [class.active]="activeFilter === 'last7days'"
+            (click)="setFilter('last7days')"
+          >
+            Last 7 Days
+          </button>
+          <button
+            class="time-option"
+            [class.active]="activeFilter === 'last30days'"
+            (click)="setFilter('last30days')"
+          >
+            Last 30 Days
+          </button>
+          <button
+            class="time-option"
+            [class.active]="activeFilter === 'allTime'"
+            (click)="setFilter('allTime')"
+          >
+            All Time
+          </button>
+        </div>
+      </div>
+
+      <!-- Dashboard Cards -->
+      <div class="dashboard-cards" *ngIf="summaryData">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Active Events</div>
+            <div class="card-icon red"><i class="fas fa-calendar-alt"></i></div>
+          </div>
+          <div class="card-value">{{ summaryData.activeEvents.value }}</div>
+          <div class="card-footer">{{ summaryData.activeEvents.footer }}</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Tickets Sold</div>
+            <div class="card-icon red"><i class="fas fa-ticket-alt"></i></div>
+          </div>
+          <div class="card-value">{{ summaryData.ticketsSold.value }}</div>
+          <div class="card-footer">{{ summaryData.ticketsSold.footer }}</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Total Revenue</div>
+            <div class="card-icon red"><i class="fas fa-dollar-sign"></i></div>
+          </div>
+          <div class="card-value">{{ summaryData.totalRevenue.value }}</div>
+          <div class="card-footer">{{ summaryData.totalRevenue.footer }}</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Avg. Occupancy</div>
+            <div class="card-icon red"><i class="fas fa-users"></i></div>
+          </div>
+          <div class="card-value">{{ summaryData.avgOccupancy.value }}</div>
+          <div class="card-footer">{{ summaryData.avgOccupancy.footer }}</div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <div class="action-btn" routerLink="/organizer/create-event">
+          <div class="action-icon"><i class="fas fa-plus-circle"></i></div>
+          <div class="action-text">Create New Event</div>
+        </div>
+        <div class="action-btn" routerLink="/view-events">
+          <div class="action-icon"><i class="fas fa-calendar-alt"></i></div>
+          <div class="action-text">View Events</div>
+        </div>
+        <div class="action-btn" routerLink="/organizer/view-reports">
+          <div class="action-icon"><i class="fas fa-chart-bar"></i></div>
+          <div class="action-text">View Reports</div>
+        </div>
+        <div class="action-btn" routerLink="/scan-qr">
+          <div class="action-icon"><i class="fa-solid fa-qrcode"></i></div>
+          <div class="action-text">Scan Qr</div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts-section">
+        <div class="chart-container">
+          <h3>Ticket Sales Trend</h3>
+          <canvas id="sales-chart"></canvas>
+        </div>
+        <div class="chart-container">
+          <h3>Revenue Growth</h3>
+          <canvas id="revenue-chart"></canvas>
+        </div>
+        <div class="chart-container">
+          <h3>Average Occupancy Rate</h3>
+          <canvas id="occupancy-chart"></canvas>
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+</div>

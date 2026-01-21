@@ -1,0 +1,219 @@
+<!-- Reports Page -->
+<div class="container mt-7 mb-7">
+  <div class="main-background">
+    <div class="reports-header">
+      <h1 class="dashboard-title">Admin Analytics Reports</h1>
+      <button class="back-btn" routerLink="/admin">
+        <i class="fas fa-arrow-left"></i> Back to Home
+      </button>
+    </div>
+
+    <hr class="my-4" />
+
+    <div class="quick-action">
+      <div class="time-filter">
+        <div class="time-options">
+          <button
+            class="time-option"
+            [class.active]="activeFilter === 'last7days'"
+            (click)="setFilter('last7days')"
+          >
+            Weekly
+          </button>
+          <button
+            class="time-option"
+            [class.active]="activeFilter === 'last30days'"
+            (click)="setFilter('last30days')"
+          >
+            Monthly
+          </button>
+          <button
+            class="time-option"
+            [class.active]="activeFilter === 'allTime'"
+            (click)="setFilter('allTime')"
+          >
+            All Time
+          </button>
+        </div>
+      </div>
+
+      <button class="export-pdf-btn" (click)="openExportDialog()">
+        <i class="fas fa-file-pdf"></i> Export PDF
+      </button>
+    </div>
+
+    <!-- Summary Cards -->
+    <div
+      class="dashboard-cards"
+      style="
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      "
+    >
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Total Events</div>
+          <div class="card-icon red">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+        </div>
+        <div class="card-value">{{ totalEvents | number }}</div>
+        <div class="card-footer">All Organizers</div>
+      </div>
+
+      <div class="card" *ngIf="allEventsSummary">
+        <div class="card-header">
+          <div class="card-title">Total Revenue</div>
+          <div class="card-icon red">
+            <i class="fas fa-dollar-sign"></i>
+          </div>
+        </div>
+        <div class="card-value">
+          {{ allEventsSummary.totalRevenue | currency : 'USD' : 'symbol' : '1.0-0' }}
+        </div>
+        <div class="card-footer">Platform-wide</div>
+      </div>
+
+      <div class="card" *ngIf="allEventsSummary">
+        <div class="card-header">
+          <div class="card-title">Tickets Sold</div>
+          <div class="card-icon red">
+            <i class="fas fa-ticket-alt"></i>
+          </div>
+        </div>
+        <div class="card-value">{{ allEventsSummary.totalTicketsSold | number }}</div>
+        <div class="card-footer">Total Sales</div>
+      </div>
+
+      <div class="card" *ngIf="auditoriumUtilization">
+        <div class="card-header">
+          <div class="card-title">Utilization</div>
+          <div class="card-icon red">
+            <i class="fas fa-chart-pie"></i>
+          </div>
+        </div>
+        <div class="card-value">{{ auditoriumUtilization.utilizationRate }}%</div>
+        <div class="card-footer">{{ auditoriumUtilization.usageFrequency }}</div>
+      </div>
+    </div>
+
+    <!-- Reports Grid -->
+    <div class="reports-grid">
+      <!-- Auditorium Utilization Report -->
+      <div class="report-card" *ngIf="auditoriumUtilization">
+        <div class="report-card-header">
+          <div class="report-card-title">Auditorium Utilization</div>
+          <div class="report-card-actions"></div>
+        </div>
+        <div class="report-chart">
+          <canvas id="auditoriumChart"></canvas>
+        </div>
+        <div class="report-summary">
+          <div class="summary-item">
+            <div class="summary-value">{{ auditoriumUtilization.bookedDays }}</div>
+            <div class="summary-label">Booked Days</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-value">{{ auditoriumUtilization.freeDays }}</div>
+            <div class="summary-label">Free Days</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-value">{{ auditoriumUtilization.utilizationRate }}%</div>
+            <div class="summary-label">Utilization Rate</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- All Events Summary Report -->
+      <div class="report-card" *ngIf="allEventsSummary">
+        <div class="report-card-header">
+          <div class="report-card-title">All Events Summary</div>
+          <div class="report-card-actions"></div>
+        </div>
+        <div class="report-chart">
+          <canvas id="eventsSummaryChart"></canvas>
+        </div>
+        <div class="report-summary">
+          <div class="summary-item">
+            <div class="summary-value">{{ allEventsSummary.totalEvents }}</div>
+            <div class="summary-label">Total Events</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-value">{{ allEventsSummary.totalTicketsSold | number }}</div>
+            <div class="summary-label">Total Tickets Sold</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-value">{{ allEventsSummary.averageOccupancy }}%</div>
+            <div class="summary-label">Avg Occupancy</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-value">
+              {{
+                allEventsSummary.highestSellingEvent.name.length > 15
+                  ? allEventsSummary.highestSellingEvent.name.substring(0, 15) + '...'
+                  : allEventsSummary.highestSellingEvent.name
+              }}
+            </div>
+            <div class="summary-label">Top Event</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Organizers Performance Report -->
+      <div class="report-card" *ngIf="organizerPerformance && organizerPerformance.length > 0">
+        <div class="report-card-header">
+          <div class="report-card-title">All Organizers' Performance</div>
+          <div class="report-card-actions"></div>
+        </div>
+        <div class="report-chart">
+          <canvas id="organizerPerformanceChart"></canvas>
+        </div>
+        <div class="report-summary">
+          <div class="summary-item" *ngFor="let organizer of organizerPerformance.slice(0, 5)">
+            <div class="summary-value">{{ organizer.eventsCreated }}</div>
+            <div class="summary-label">
+              {{ organizer.name }} - {{ organizer.revenue | currency : 'USD' : 'symbol' : '1.0-0' }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Financial Overview Report -->
+      <div class="report-card" *ngIf="financialOverview">
+        <div class="report-card-header">
+          <div class="report-card-title">Financial Overview</div>
+          <div class="report-card-actions"></div>
+        </div>
+        <div class="report-chart">
+          <canvas id="financialChart"></canvas>
+        </div>
+        <div class="report-summary">
+          <div class="summary-item">
+            <div class="summary-value">
+              {{ financialOverview.totalRevenue | currency : 'USD' : 'symbol' : '1.0-0' }}
+            </div>
+            <div class="summary-label">Total Revenue</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-value">{{ financialOverview.successfulPayments }}</div>
+            <div class="summary-label">Successful Payments</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-value">{{ financialOverview.totalBookings }}</div>
+            <div class="summary-label">Total Bookings</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-value">
+              {{ financialOverview.totalDiscounts | currency : 'USD' : 'symbol' : '1.0-0' }}
+            </div>
+            <div class="summary-label">Total Discounts</div>
+          </div>
+        </div>
+      </div>
+
+      <hr mt-4 />
+    </div>
+  </div>
+</div>

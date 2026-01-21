@@ -1,0 +1,47 @@
+<div class="main-background">
+  <div class="container mt-4">
+    <div class="header">
+      <h2 class="page-title">View Events</h2>
+      <button class="back-btn" [routerLink]="userRole === 'admin' ? '/admin' : '/organizer'">
+        <i class="fas fa-arrow-left"></i> Back to Home
+      </button>
+    </div>
+
+    <hr class="my-4" />
+    <div class="mb-3 d-flex align-items-center justify-content-between">
+      <div class="d-flex gap-2">
+        <input type="text" class="form-control" placeholder="Search by event name" (input)="onSearch($any($event.target).value)" />
+        <select class="form-select" (change)="onTimeFilter($any($event.target).value)">
+          <option value="all" selected>All time periods</option>
+          <option value="upcoming">Upcoming</option>
+          <option value="ongoing">Ongoing</option>
+          <option value="past">Past</option>
+        </select>
+      </div>
+      <div>
+        <select class="form-select" (change)="onSortChange($any($event.target).value)">
+          <option value="recent" selected>Sort: Recent to Oldest</option>
+          <option value="oldest">Sort: Oldest to Recent</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 mb-4" *ngFor="let event of events">
+        <app-event-cards
+          [id]="event.eventId"
+          [title]="event.title"
+          [description]="event.description || ''"
+          [picture]="event.posterURL || ''"
+          [date]="event.date"
+          [startTime]="event.startTime"
+          [location]="event.location"
+          [ticketsLeft]="event.ticketsLeft"
+          [status]="event.status"
+          [viewMode]="'organizer'"
+          (view)="viewDetails(event)"
+        ></app-event-cards>
+      </div>
+    </div>
+  </div>
+</div>

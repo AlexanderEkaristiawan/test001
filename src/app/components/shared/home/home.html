@@ -1,0 +1,112 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<div class="container mt-7 mb-7">
+  <div class="background">
+    <div class="container">
+      <div class="content-section">
+        <h1 class="title">HELP Auditorium EMS Website</h1>
+        <hr class="my-4" />
+        <p class="lead">Browse events, book tickets, and manage your bookings with ease.</p>
+        <a class="btn btn-primary btn-lg" routerLink="/browse-events" role="button">Browse Events</a>
+      </div>
+
+      <div class="image-section">
+        <a href="https://www.freepik.com/free-psd/3d-cinema-icon-illustration-with-movie-theater-seats_54170322.htm#fromView=search&page=1&position=2&uuid=fce5250d-ccae-45b8-a109-5297a2ab7af9&query=seat+cinema"
+          target="_blank" rel="noopener noreferrer">
+          <img class="cartoon-chair" src="assets/chair-homescreen.png" alt="Image by Freepik" />
+        </a>
+      </div>
+    </div>
+
+    <hr class="my-4" />
+
+    <section class="section" id="about">
+      <div class="card mb-3">
+        <div class="card-body p-0">
+          <div class="img-inner rounded position-relative">
+            <a href="https://www.freepik.com/free-photo/rows-red-seats-theater_3532061.htm#fromView=search&page=1&position=0&uuid=4a2b5c2e-afef-4023-808f-9b8da079bb7b&query=auditorium"
+              target="_blank" rel="noopener noreferrer">
+              <img class="d-block w-100" src="assets/RedSeats.jpg" alt="Image by Freepik" />
+            </a>
+
+            <!-- Caption at bottom -->
+            <div class="img-caption">
+              <h3>Expirience the magic of HELP Auditorium</h3>
+              <p>
+                An immersive experience that brings together the best of HELP and the community,
+                what supports the local community.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="my-4" />
+
+    <div class="spacer"></div>
+    <!-- Features Section -->
+    <section class="section" id="features">
+      <div class="section-title">
+        <p>HELP Auditorium Facilities</p>
+      </div>
+
+      <div class="features">
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-chair"></i>
+            </div>
+
+            <p class="feature-desc">+700 Seats</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-mobile-alt"></i>
+            </div>
+            <p class="feature-desc">Online Booking</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-star"></i>
+            </div>
+            <p class="feature-desc">Flexibility</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="my-10" />
+
+    <!-- Featured events -->
+    <section class="featured-events-section">
+      
+        <div class="text-center mb-5">
+          <div class="row">
+            <div class="section-title">
+              <p>Featured Events</p>
+            </div>
+            <p class="lead text-muted">Discover the most popular events that are happening right now.</p>
+          </div>
+          <div *ngIf="loading" class="text-center">
+            <p>Loading featured events...</p>
+          </div>
+          <div *ngIf="!loading && featuredEvents.length === 0" class="text-center">
+            <p>No featured events available at the moment.</p>
+          </div>
+          <div class="row" *ngIf="!loading && featuredEvents.length > 0">
+            <div class="col-md-4 mb-4" *ngFor="let event of featuredEvents">
+              <app-event-cards [id]="event.eventId" [title]="event.title" [description]="event.description || ''"
+                [picture]="event.posterURL || ''" [date]="event.date" [startTime]="event.startTime"
+                [location]="event.location" [ticketsLeft]="event.ticketsLeft" [status]="event.status"></app-event-cards>
+            </div>
+          </div>
+          <div class="row">
+           <a class="btn btn-primary btn-lg" routerLink="/browse-events" role="button">Browse All Events</a>
+          </div>
+        </div>
+    </section>
+  </div>
+</div>
